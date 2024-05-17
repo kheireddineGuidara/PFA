@@ -7,12 +7,10 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/page-auth.css')}}">
 @endsection
 
-
 @section('content')
 <div class="position-relative">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner py-4">
-
       <!-- Register Card -->
       <div class="card p-2">
         <!-- Logo -->
@@ -26,6 +24,23 @@
         <div class="card-body mt-2">
           <h4 class="mb-2">Adventure starts here 🚀</h4>
           <p class="mb-4">Make your app management easy and fun!</p>
+
+          @if(session('success'))
+            <div class="alert alert-success" role="alert">
+              {{ session('success') }}
+            </div>
+          @endif
+
+          <!-- Afficher les messages d'erreur de validation -->
+          @if($errors->any())
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
 
           <form id="formAuthentication" class="mb-3" action="{{ route('post-register-basic') }}" method="POST">
             @csrf
@@ -46,7 +61,6 @@
                 <span class="input-group-text cursor-pointer"><i class="mdi mdi-eye-off-outline"></i></span>
               </div>
             </div>
-
            
             <button class="btn btn-primary d-grid w-100" type="submit">
               Sign up
