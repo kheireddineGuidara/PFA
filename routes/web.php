@@ -71,6 +71,7 @@ Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index
 
 // authentication
 Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
+Route::post('/auth/login-basic', [LoginBasic::class, 'login'])->name('login-basic');
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::post('/auth/register-basic', [RegisterBasic::class, 'register'])->name('post-register-basic');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
