@@ -27,17 +27,9 @@ class RegisterBasic extends Controller
       'email' => $request->email,
       'password' => Hash::make($request->password),
     ]);
-    // Générer un jeton d'accès
+
     $token = $user->createToken('token-name')->plainTextToken;
 
-    // Retourner une réponse JSON
-    return response()->json(
-      [
-        'status' => true,
-        'message' => 'User Created Successfully',
-        'token' => $token,
-      ],
-      200
-    );
+    return view('content.authentications.auth-login-basic');
   }
 }
