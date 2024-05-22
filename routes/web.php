@@ -43,9 +43,10 @@ use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
+use App\Http\Controllers\user_interface\UserController;
 
 // Main Page Route
-Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+Route::get('/', [LoginBasic::class, 'index'])->name('dashboard');
 
 // layout
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -117,3 +118,21 @@ Route::get('/form/layouts-horizontal', [HorizontalForm::class, 'index'])->name('
 
 // tables
 Route::get('/tables/basic', [TablesBasic::class, 'index'])->name('tables-basic');
+
+Route::group(['middleware' => ['role:Super Admin']], function () {
+  Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+  Route::get('/admin/create', [UserController::class, 'create'])->name('admin.create');
+  Route::post('/admin', [UserController::class, 'store'])->name('admin.store');
+  Route::get('/admin/{user}/edit', [UserController::class, 'edit'])->name('admin.edit');
+  Route::put('/admin/{user}', [UserController::class, 'update'])->name('admin.update');
+  Route::delete('/admin/{user}', [UserController::class, 'destroy'])->name('admin.destroy');
+});
+
+Route::group(['middleware' => ['role:Admin']], function () {
+  Route::get('/user-management', [UserController::class, 'index'])->name('user.index');
+  Route::get('/user-management/create', [UserController::class, 'create'])->name('user.create');
+  Route::post('/user-management', [UserController::class, 'store'])->name('user.store');
+  Route::get('/user-management/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+  Route::put('/user-management/{user}', [UserController::class, 'update'])->name('user.update');
+  Route::delete('/user-management/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+});
